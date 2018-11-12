@@ -76,7 +76,7 @@ void vog_read_byte(vogdev *device, uint8_t *data)
 {
 	#ifdef MDBLIB
 	mdb_wait(device->interface);
-	mdb_step(device->interface);	// allow the value to be written
+	mdb_stepi(device->interface);	// allow the value to be written
 	mdbword output = (mdbword)mdb_print_var(device->interface, 'd', 1, out_name);
 	*data = (uint8_t)(0x00FF & output);
 	mdb_continue(device->interface);
@@ -100,6 +100,7 @@ void vog_write_byte(vogdev *device, uint8_t data)
 	temp[0] &= ~0x00FF;	// not 100% the correct endian-ness; will determine with testing
 	temp[0] |= (0x00FF & (mdbword)data);	// back up the word at the address before writing
 	mdb_write_mem(device->interface, 'r', device->out_addr, 1, temp);
+	mdb_continue(device->interface);
 
 	#endif // MDBLIB
 	return;
