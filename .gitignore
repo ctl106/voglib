@@ -31,3 +31,6 @@ disassembly/
 bin/
 obj/
 
+client/nbproject/
+client/Makefile
+
