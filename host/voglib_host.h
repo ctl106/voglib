@@ -25,7 +25,7 @@ typedef struct _vogdev vogdev;
 
 /*
 Basic usage of this library would look like this:
-	vogword data = 0x00;		// could be some user-defined command
+	uint8_t data = 0x00;		// could be some user-defined command
 	vogdev *pic = vog_init("dsPIC33EP128GP502", "some_program");
 	vog_run(pic);
 	vog_write_byte(pic, data);	// writes command to the device

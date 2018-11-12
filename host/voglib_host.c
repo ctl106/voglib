@@ -49,6 +49,7 @@ void vog_close(vogdev *device)
 {
 	#ifdef MDBLIB
 	mdb_delete_all(device->interface);
+	mdb_quit(device->interface);
 	mdb_close(device->interface);
 	#endif
 
