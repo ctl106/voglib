@@ -25,18 +25,19 @@ typedef struct _vogdev vogdev;
 
 /*
 Basic usage of this library would look like this:
-	vogword data = 0x00;	// could be some user-defined command
-	vogdev *pic = vog_init("dsPIC33EP128GP502");
-	vog_put(pic, data);		// writes command to the device
-	vog_get(pic, &data);	// reads the response from the device
+	vogword data = 0x00;		// could be some user-defined command
+	vogdev *pic = vog_init("dsPIC33EP128GP502", "some_program");
+	vog_run(pic);
+	vog_write_byte(pic, data);	// writes command to the device
+	vog_read_byte(pic, &data);	// reads the response from the device
 	printf("Result:\t%"VOG_PRIWORD"\n", data);
-	vog_close(pic);			// closes the device and deconstructs
+	vog_close(pic);				// closes the device and deconstructs
 
-HOWEVER, the pug and get commands will be blocking since they have to wait on
-the device to be ready to read/write back from/to the host device. As a result,
-it may prove desireable to create a put and get thread seperate from the main
-thread to prevent the whole vogdev *deviceess from locking up, if it is going to be doing
-anything in addition to this reading and writing.
+HOWEVER, the read and write commands will be blocking since they have to wait
+on the device to be ready to read/write back from/to the host device. As a
+result, it may prove desireable to create a put and get thread seperate from
+the main thread to prevent the whole vogdev *deviceess from locking up, if it
+is going to be doing anything in addition to this reading and writing.
 */
 
 vogdev *vog_init(char *devname, char *program);
