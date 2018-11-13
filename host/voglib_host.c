@@ -30,12 +30,12 @@ vogdev *vog_init(char *devname, char *program)
 	#ifdef MDBLIB
 	device->interface = mdb_init();
 	mdb_device(device->interface, devname);
-	mdb_hwtool(device->interface, "SIM", 0);
+	mdb_hwtool(device->interface, "SIM", 0, 0);
 	mdb_program(device->interface, program);
 	device->in_addr = mdb_print_var_addr(device->interface, in_name);
 	device->out_addr = mdb_print_var_addr(device->interface, out_name);
-    mdb_watch(device->interface, device->in_addr, 'R', 0);
-    mdb_watch(device->interface, device->out_addr, 'W', 0);
+    mdb_watch(device->interface, device->in_addr, "R", 0);
+    mdb_watch(device->interface, device->out_addr, "W", 0);
 
 	#else
 	free(device);
@@ -60,13 +60,13 @@ void vog_close(vogdev *device)
 void vog_run(vogdev *device)
 {
 	#ifdef MDBLIB
-	mdb_run(device->handle);
+	mdb_run(device->interface);
 	#endif // MDBLIB
 
 	return;
 }
 
-void vog_read(vogdev *device, char *buf, size_t count)
+void vog_read(vogdev *device, uint8_t *buf, size_t count)
 {
 	size_t i;
 	for(i = 0; i < count; i++)
@@ -86,11 +86,11 @@ void vog_read_byte(vogdev *device, uint8_t *data)
 	return;
 }
 
-void vog_write(vogdev *device, cont char *buf, size_t count)
+void vog_write(vogdev *device, const uint8_t *buf, size_t count)
 {
 	size_t i;
 	for(i = 0; i < count; i++)
-		vog_write_byte(proc, buf[i]);
+		vog_write_byte(device, buf[i]);
 }
 
 void vog_write_byte(vogdev *device, uint8_t data)

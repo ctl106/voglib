@@ -14,7 +14,7 @@ accompanying trace and debug tools.
 
 
 #ifdef MDBLIB
-#include mdblib.h
+#include "mdblib.h"
 #define VOG_PRIWORD	MDB_PRIWORD
 #else
 #error No supported interace was specified for voglib.
@@ -46,7 +46,7 @@ void vog_run(vogdev *device);
 
 void vog_read(vogdev *device, uint8_t *buf, size_t count);
 void vog_read_byte(vogdev *device, uint8_t *data);
-void vog_write(vogdev *device, cont uint8_t *buf, size_t count);
+void vog_write(vogdev *device, const uint8_t *buf, size_t count);
 void vog_write_byte(vogdev *device, uint8_t data);
 
 #endif // VOGLIB_HOST_H_INCLUDED
